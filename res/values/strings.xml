@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">OctoManager</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
+    <string name="app_name">a</string>
+    <string name="edit_message">Edit me</string>
+    <string name="button_send">Go!</string>
+    <string name="title_activity_display_message">My Message</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_network">NetworkActivity</string>
+    <string name="button_send_net">Send to Network!</string>
+    
 </resources>

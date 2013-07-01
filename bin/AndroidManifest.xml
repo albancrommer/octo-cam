@@ -4,18 +4,26 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
     <application
         android:allowBackup="true"
+        android:debuggable="true" 
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.octomanager.FullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges=""
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
             <intent-filter>
@@ -24,6 +32,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.octomanager.DisplayMessageActivity"
+            android:label="@string/title_activity_display_message"
+            android:parentActivityName="com.example.octomanager.FullscreenActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.octomanager.FullscreenActivity" />
+        </activity>
+        <activity
+            android:name="com.example.octomanager.NetworkActivity"
+            android:label="@string/title_activity_network"
+            android:parentActivityName="com.example.octomanager.FullscreenActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.octomanager.FullscreenActivity" />
+        </activity>
+
+        <service
+            android:name="com.example.octomanager.ConnectionHandler"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>
