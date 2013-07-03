@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.octomanager"
+    package="com.octopuce.octocam"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="15"
         android:targetSdkVersion="17" />
 
     <application
@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.octomanager.FullscreenActivity"
+            android:name="com.example.octocam.FullscreenActivity"
             android:configChanges=""
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
@@ -34,25 +34,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.octomanager.DisplayMessageActivity"
-            android:label="@string/title_activity_display_message"
-            android:parentActivityName="com.example.octomanager.FullscreenActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.octomanager.FullscreenActivity" />
-        </activity>
-        <activity
-            android:name="com.example.octomanager.NetworkActivity"
+            android:name="com.example.octocam.NetworkActivity"
             android:label="@string/title_activity_network"
           	android:screenOrientation="landscape"
-            android:parentActivityName="com.example.octomanager.FullscreenActivity" >
+            android:parentActivityName="com.example.octocam.FullscreenActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.octomanager.FullscreenActivity" />
+                android:value="com.example.octocam.FullscreenActivity" />
         </activity>
 
         <service
-            android:name="com.example.octomanager.ConnectionHandler"
+            android:name="com.example.octocam.ConnectionHandler"
             android:enabled="true"
             android:exported="false" >
         </service>
