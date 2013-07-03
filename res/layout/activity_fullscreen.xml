@@ -5,42 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
-    <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:orientation="vertical" >
-
     <EditText
         android:id="@+id/edit_message"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="0.09"
         android:hint="@string/edit_message" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:orientation="vertical" >
-
-	<Button	
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:text="@string/button_send"
-	    android:onClick="sendMessage" />
-    </LinearLayout>
-
-<LinearLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
-        <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_send_net" 
-	    android:onClick="sendNet" />
-    
-</LinearLayout>
-
+       <Button
+           android:layout_width="290dp"
+           android:layout_height="match_parent"
+           android:onClick="sendNet"
+           android:text="@string/button_send_net" />
+	
 </LinearLayout>

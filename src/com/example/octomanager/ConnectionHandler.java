@@ -187,7 +187,7 @@ public class ConnectionHandler extends AsyncTask<Void, Void, Void>{
 //        }
 //        
         
-		send("exit".getBytes());
+//		send("exit".getBytes());
 		
         Log.i("AsyncTank", "onReady: exit");
 	}

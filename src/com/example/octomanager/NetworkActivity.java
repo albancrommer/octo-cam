@@ -10,6 +10,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
@@ -115,6 +116,11 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	    	Log.e(TAG,"prepareVideoRecorder:: can't get camera");
 	    	return false;
 	    }
+	    
+	    if( null == s){
+	    	Log.e(TAG,"prepareVideoRecorder:: can't get socket");
+	    	return false;
+	    }
 	    mMediaRecorder = new MediaRecorder();
 
 	    // Step 1: Unlock and set camera to MediaRecorder
@@ -126,10 +132,30 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	    mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
 	    // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
-	    mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+//	    mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+//	    mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+	    mMediaRecorder.setOutputFormat(8); // MPEG-TS
+	    mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+	    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+		mMediaRecorder.setVideoSize(1280, 720);
+		mMediaRecorder.setVideoEncodingBitRate(2000000);
+		mMediaRecorder.setVideoFrameRate(30);
+		mMediaRecorder.setAudioEncodingBitRate(8000);
+		mMediaRecorder.setAudioChannels(1);
+		mMediaRecorder.setAudioSamplingRate(8000);
+
+//	    setVideoEncodingBitRate()
+//	    setVideoSize()
+//	    setVideoFrameRate()
+//	    setAudioEncodingBitRate()
+//	    setAudioChannels()
+//	    setAudioSamplingRate()
+
 
 	    // Step 4: Set output file
-	    mMediaRecorder.setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
+//	    mMediaRecorder.setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
+	    ParcelFileDescriptor pfd = ParcelFileDescriptor.fromSocket(s);
+	    mMediaRecorder.setOutputFile(pfd.getFileDescriptor());
 
 	    // Step 5: Set the preview output
 	    mMediaRecorder.setPreviewDisplay(mPreview.getHolder().getSurface());
@@ -174,17 +200,10 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	
 	public void onSocketReady(){
 		
-		conhandler.send( "NetworkActivity::onSocketReady".getBytes()); 
+//		conhandler.send( "NetworkActivity::onSocketReady".getBytes()); 
 		Log.i("NetworkActivity:onSocketReady","Load");
 		s = conhandler.getSocket();
-//		Bitmap bMap = BitmapFactory.decodeFile("/sdcard/test.jpg");
-//
-//		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//		bMap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//		byte[] byteArray = stream.toByteArray();
-//		Log.i("NetworkActivity:onSocketReady","sending bitmap");
-//		conhandler.send(byteArray); 
-	
+
 		
 	}
 
@@ -204,43 +223,43 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
       }
   }
 
-	/** Create a file Uri for saving an image or video */
-	private static Uri getOutputMediaFileUri(int type){
-	      return Uri.fromFile(getOutputMediaFile(type));
-	}
-
-	/** Create a File for saving an image or video */
-	private static File getOutputMediaFile(int type){
-	    // To be safe, you should check that the SDCard is mounted
-	    // using Environment.getExternalStorageState() before doing this.
-	
-	    File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-	              Environment.DIRECTORY_PICTURES), "MyCameraApp");
-	    // This location works best if you want the created images to be shared
-	    // between applications and persist after your app has been uninstalled.
-	
-	    // Create the storage directory if it does not exist
-	    if (! mediaStorageDir.exists()){
-	        if (! mediaStorageDir.mkdirs()){
-	            Log.d("MyCameraApp", "failed to create directory");
-	            return null;
-	        }
-	    }
-	
-	    // Create a media file name
-	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-	    File mediaFile;
-	    if (type == MEDIA_TYPE_IMAGE){
-	        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-	        "IMG_"+ timeStamp + ".jpg");
-	    } else if(type == MEDIA_TYPE_VIDEO) {
-	        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-	        "VID_"+ timeStamp + ".mp4");
-	    } else {
-	        return null;
-	    }
-	
-	    return mediaFile;
-	}
+//	/** Create a file Uri for saving an image or video */
+//	private static Uri getOutputMediaFileUri(int type){
+//	      return Uri.fromFile(getOutputMediaFile(type));
+//	}
+//
+//	/** Create a File for saving an image or video */
+//	private static File getOutputMediaFile(int type){
+//	    // To be safe, you should check that the SDCard is mounted
+//	    // using Environment.getExternalStorageState() before doing this.
+//	
+//	    File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+//	              Environment.DIRECTORY_PICTURES), "MyCameraApp");
+//	    // This location works best if you want the created images to be shared
+//	    // between applications and persist after your app has been uninstalled.
+//	
+//	    // Create the storage directory if it does not exist
+//	    if (! mediaStorageDir.exists()){
+//	        if (! mediaStorageDir.mkdirs()){
+//	            Log.d("MyCameraApp", "failed to create directory");
+//	            return null;
+//	        }
+//	    }
+//	
+//	    // Create a media file name
+//	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//	    File mediaFile;
+//	    if (type == MEDIA_TYPE_IMAGE){
+//	        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+//	        "IMG_"+ timeStamp + ".jpg");
+//	    } else if(type == MEDIA_TYPE_VIDEO) {
+//	        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+//	        "VID_"+ timeStamp + ".mp4");
+//	    } else {
+//	        return null;
+//	    }
+//	
+//	    return mediaFile;
+//	}
 }
 
