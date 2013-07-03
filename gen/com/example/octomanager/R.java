@@ -35,7 +35,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090001;
+        public static final int action_settings=0x7f090003;
+        public static final int button_capture=0x7f090002;
+        public static final int camera_preview=0x7f090001;
         public static final int edit_message=0x7f090000;
     }
     public static final class layout {
@@ -54,6 +56,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int button_send_net=0x7f060007;
         public static final int edit_message=0x7f060001;
         public static final int hello_world=0x7f060005;
+        public static final int surface_view=0x7f060008;
         public static final int title_activity_display_message=0x7f060003;
         public static final int title_activity_network=0x7f060006;
     }

@@ -8,15 +8,22 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import android.app.Service;
 
 import android.content.Intent;
+import android.hardware.Camera;
+import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import android.view.Surface;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 //public class MyListener implements ActionListener{
 //	
@@ -33,7 +40,7 @@ public class ConnectionHandler extends AsyncTask<Void, Void, Void>{
 	public String message;
 	protected ArrayList<SocketListenerInterface> listenersList = new ArrayList<SocketListenerInterface>();
 	protected ArrayList<byte[]> buffer = new ArrayList<byte[]>();
-
+	
 	
 	@Override
 	protected Void doInBackground(Void... params) {
@@ -67,7 +74,6 @@ public class ConnectionHandler extends AsyncTask<Void, Void, Void>{
 	        	dis = s.getInputStream();
 	            Log.i("AsyncTank", "doInBackground: doOutputStream");
 	            dos = s.getOutputStream();
-	            Log.i("AsyncTank", "Send on ready");
 	            Log.i("AsyncTank", "doInBackground: Socket created, Streams assigned");
 	
 	        } catch (Exception e) {
@@ -79,9 +85,26 @@ public class ConnectionHandler extends AsyncTask<Void, Void, Void>{
 	        Log.i("AsyncTank", "doInBackground: Cannot assign Streams, Socket is closed");
 		    return null;
 	    }
+        Log.i("AsyncTank", "Send on ready");
         onReady();
 	    return null;
 	}
+	
+	@Override
+	protected void onCancelled() {
+
+		try {
+			s.close();
+			s = null;
+		} catch (IOException e) {
+			Log.w("AsynkTask::onCancelled", "Failed to socket");
+			e.printStackTrace();
+			return;
+		}
+		Log.i("AsynkTask::onCancelled", "Closed socket successfully");
+	}
+			
+
 	
 	public void addListener (SocketListenerInterface listener){
 		
@@ -90,9 +113,10 @@ public class ConnectionHandler extends AsyncTask<Void, Void, Void>{
 	}	
 	
 	private void onReady() {
-		
+        Log.i("AsyncTank", "onReady: init");
+
 		// Empty buffer 
-		sendBuffer();
+//		sendBuffer();
 		
 		// signal availability to listeners
 		 for( Iterator<SocketListenerInterface> itr = listenersList.iterator(); itr.hasNext(); ){
@@ -101,7 +125,75 @@ public class ConnectionHandler extends AsyncTask<Void, Void, Void>{
 			 theListener.onSocketReady(); 
 			 
 		 }
+//
+//		try {
+//			s.setTcpNoDelay(true);
+//		} catch (SocketException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		ParcelFileDescriptor pfd = ParcelFileDescriptor.fromSocket(s);
+//		Camera camera = Camera.open();
+//		camera.unlock();
+//		MediaRecorder recorder = new MediaRecorder();
+//		recorder.setCamera(camera);
+//		recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+//		recorder.setOutputFormat(8); // MPEG-TS
+//		recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+//		recorder.setOutputFile(pfd.getFileDescriptor());
+//		recorder.setPreviewDisplay(surfaceView.getHolder().getSurface());
+//		recorder.setVideoFrameRate(15);
+//		recorder.setVideoSize(480, 320);
+//		try {
+//			recorder.prepare();
+//			send("prepare".getBytes());
+//			recorder.start();	
+//			send("start".getBytes());
+//		} catch (IllegalStateException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//        MediaRecorder recorder = new MediaRecorder();
+//        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+//        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+//        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+//        recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H263);
+//        recorder.setOutputFile("/sdcard/movie");
+//
+//        try {
+//			recorder.prepare();
+//		} catch (IllegalStateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        try{
+//        	
+//	        recorder.start();   // Recording is now started
+//	        Long tsLong = System.currentTimeMillis();
+//	        Long curTime = System.currentTimeMillis();
+//	        while(tsLong+10000 > curTime){
+//	        	curTime = System.currentTimeMillis();
+//	//        	Log.i("AsyncTank","onReady:+"+curTime.toString());
+//	        }
+//	        recorder.stop();
+//        }catch(Exception e){
+//			e.printStackTrace();
+//        }
+//        
+        
+		send("exit".getBytes());
 		
+        Log.i("AsyncTank", "onReady: exit");
+	}
+	
+	public Socket getSocket(){
+		return s;
 	}
 	
 	public boolean send( byte[] bytes){
@@ -175,18 +267,4 @@ public class ConnectionHandler extends AsyncTask<Void, Void, Void>{
 		writeToStream(bytes);
 	}
 	
-	@Override
-  protected void onCancelled() {
-
-		try {
-			s.close();
-		} catch (IOException e) {
-			Log.w("AsynkTask::onCancelled", "Failed to socket");
-			e.printStackTrace();
-			return;
-		}
-		Log.i("AsynkTask::onCancelled", "Closed socket successfully");
-	}
-		
-
 }

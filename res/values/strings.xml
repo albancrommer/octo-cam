@@ -9,5 +9,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_network">NetworkActivity</string>
     <string name="button_send_net">Send to Network!</string>
+    <string name="surface_view">surface_view</string>
     
 </resources>
