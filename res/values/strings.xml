@@ -3,7 +3,16 @@
 
     <string name="app_name">Octocam</string>
     <string name="title_activity_network">NetworkActivity</string>
-    <string name="button_send_net">Send to Network!</string>
+    <string name="button_send_net">Connect to Server and Stream</string>
     <string name="surface_view">surface_view</string>
+    <string name="port_message">Server Port</string>
+    <string name="ip_message">Server IP</string>
+    <string name="help_message">Enter server IP + port and then connect</string>
+    <string name="help_message_format">Select a streaming format (MPEGTS prefered)</string>
+    <string name="radio_mpegts">MPEGTS</string>
+    <string name="radio_mp4">MP4</string>
+    <string name="radio_3gpp">3GPP</string>
+    <string name="radio_matroska">Matroska</string>
+    <string name="radio_webm">WebM</string>
     
 </resources>

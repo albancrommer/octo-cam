@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.octocam.FullscreenActivity"
+            android:name="com.octopuce.octocam.FullscreenActivity"
             android:configChanges=""
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
@@ -34,17 +34,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.octocam.NetworkActivity"
+            android:name="com.octopuce.octocam.NetworkActivity"
             android:label="@string/title_activity_network"
           	android:screenOrientation="landscape"
-            android:parentActivityName="com.example.octocam.FullscreenActivity" >
+            android:parentActivityName="com.octopuce.octocam.FullscreenActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.octocam.FullscreenActivity" />
+                android:value="com.octopuce.octocam.FullscreenActivity" />
         </activity>
 
         <service
-            android:name="com.example.octocam.ConnectionHandler"
+            android:name="com.octopuce.octocam.ConnectionHandler"
             android:enabled="true"
             android:exported="false" >
         </service>

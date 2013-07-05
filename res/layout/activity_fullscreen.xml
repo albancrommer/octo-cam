@@ -1,14 +1,115 @@
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:baselineAligned="false" >
 
-       <Button
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:onClick="sendNet"
-           android:text="@string/button_send_net" />
-	
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="0.13" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/help_message" 
+            android:textAppearance="?android:attr/textAppearanceMedium"
+			android:gravity="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="sendNet"
+                android:text="@string/button_send_net" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.13" >
+
+            <EditText
+                android:id="@+id/ipAdressText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="0.2"
+                android:ems="10"
+                android:hint="@string/ip_message"
+                tools:ignore="NestedWeights" />
+
+            <EditText
+                android:id="@+id/portText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="0.2"
+                android:ems="10"
+                android:hint="@string/port_message" >
+
+                <requestFocus />
+            </EditText>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/help_message_format" 
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+			android:gravity="center" />
+        
+        <RadioGroup
+            android:id="@+id/radioGroup1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.13" >
+
+            <RadioButton
+                android:id="@+id/radio0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/radio_mpegts" />
+
+            <RadioButton
+                android:id="@+id/radio1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_mp4" />
+
+            <RadioButton
+                android:id="@+id/radio2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_3gpp" />
+
+            <RadioButton
+                android:id="@+id/radio3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_matroska" />
+            
+            <RadioButton
+                android:id="@+id/radio4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_webm" />
+            </RadioGroup>
+    </LinearLayout>
+
 </LinearLayout>
