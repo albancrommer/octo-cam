@@ -21,6 +21,8 @@ import com.octopuce.octocam.R;
  * TODO: DOC
  * @author alban
  *
+ *
+
  */
 public class NetworkActivity extends Activity implements SocketListenerInterface{
 	
@@ -34,6 +36,7 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
     private Socket mSocket;
 	private String mIp;
 	private int mPort;
+	private int mFormat;
 
     
 	@SuppressLint("NewApi")
@@ -48,8 +51,8 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	    Bundle bundle 		= getIntent().getExtras();
 	    mIp 				= getIntent().getStringExtra(FullscreenActivity.EXTRA_IP);
 	    mPort				= getIntent().getIntExtra(FullscreenActivity.EXTRA_PORT,0);
-
-		Log.i(TAG,"onCreate Extra Target "+mIp+":"+mPort);
+	    mFormat				= getIntent().getIntExtra(FullscreenActivity.EXTRA_FORMAT,0);
+		Log.i(TAG,"onCreate Extra Format:"+mFormat+" Target "+mIp+":"+mPort);
 		
         // Create an instance of Camera
         mCamera 			= getCameraInstance();
@@ -156,7 +159,8 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	    mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
 	    // Step 3: Set Recorder settings (old API style)
-	    mMediaRecorder.setOutputFormat(8); // MPEG-TS
+	    Log.i(TAG,"Output Format:"+mFormat);
+	    mMediaRecorder.setOutputFormat(mFormat); 
 	    mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 	    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
 		mMediaRecorder.setVideoSize(1280, 720);

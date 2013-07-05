@@ -83,11 +83,11 @@ public class ConnectionHandler extends AsyncTask<Void, Void, Void>{
 			mSocket.close();
 			mSocket = null;
 		} catch (IOException e) {
-			Log.e(TAG, "onCancelled Failed to close socket");
+			Log.e(TAG, "Failed to close socket");
 			e.printStackTrace();
 			return;
 		}
-		Log.i(TAG, "onCancelled Closed socket successfully");
+		Log.i(TAG, "Closed socket successfully");
 	}
 			
 

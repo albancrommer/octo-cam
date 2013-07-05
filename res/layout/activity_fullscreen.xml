@@ -74,42 +74,48 @@
 			android:gravity="center" />
         
         <RadioGroup
-            android:id="@+id/radioGroup1"
+            android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.13" >
 
             <RadioButton
-                android:id="@+id/radio0"
+                android:id="@+id/radioMPEGTS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:text="@string/radio_mpegts" />
 
             <RadioButton
-                android:id="@+id/radio1"
+                android:id="@+id/radioMP4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/radio_mp4" />
 
             <RadioButton
-                android:id="@+id/radio2"
+                android:id="@+id/radio3GPP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/radio_3gpp" />
 
-            <RadioButton
-                android:id="@+id/radio3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/radio_matroska" />
+<!--             <RadioButton -->
+<!--                 android:id="@+id/radioMATROSKA" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:text="@string/radio_matroska" /> -->
             
+<!--             <RadioButton -->
+<!--                 android:id="@+id/radioWEBM" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:text="@string/radio_webm" /> -->
+
             <RadioButton
-                android:id="@+id/radio4"
+                android:id="@+id/radioRTP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/radio_webm" />
+                android:text="@string/radio_rtp" />
             </RadioGroup>
-    </LinearLayout>
+        
+        </LinearLayout>
 
 </LinearLayout>
