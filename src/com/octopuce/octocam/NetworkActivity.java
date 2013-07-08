@@ -24,10 +24,10 @@ import com.octopuce.octocam.R;
  *
 
  */
-public class NetworkActivity extends Activity implements SocketListenerInterface{
+public class NetworkActivity extends OctoActivity implements SocketListenerInterface{
 	
 	private static final String TAG = "octoCam:NetworkActivity";
-	private ConnectionHandler conhandler;
+	private ConnectionHandler mConHandler;
     private Camera mCamera;
     private CameraPreview mPreview;
     private MediaRecorder mMediaRecorder;
@@ -37,6 +37,7 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	private String mIp;
 	private int mPort;
 	private int mFormat;
+	private int mCodec;
 
     
 	@SuppressLint("NewApi")
@@ -52,10 +53,12 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	    mIp 				= getIntent().getStringExtra(FullscreenActivity.EXTRA_IP);
 	    mPort				= getIntent().getIntExtra(FullscreenActivity.EXTRA_PORT,0);
 	    mFormat				= getIntent().getIntExtra(FullscreenActivity.EXTRA_FORMAT,0);
-		Log.i(TAG,"onCreate Extra Format:"+mFormat+" Target "+mIp+":"+mPort);
+	    mCodec				= getIntent().getIntExtra(FullscreenActivity.EXTRA_CODEC,0);
+		Log.i(TAG,"onCreate Extra Format:"+mFormat+" Codec:"+mCodec+" Target "+mIp+":"+mPort);
 		
         // Create an instance of Camera
         mCamera 			= getCameraInstance();
+        
         // Create our Preview view and set it as the content of our activity.
         mPreview 			= new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
@@ -102,11 +105,14 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	public void onResume() {
 		super.onResume();
 		Log.i(TAG,"onResume:init");
+		
 		try{
 			// Connects to socket
-			conhandler = new ConnectionHandler(mIp,mPort);
-		    conhandler.execute();
-		    conhandler.addListener(this);
+			mCamera = getCameraInstance();
+			mCamera.startPreview();
+			mConHandler = new ConnectionHandler(mIp,mPort);
+		    mConHandler.execute();
+		    mConHandler.addListener(this);
 		}catch(Exception e){
 			Log.w("NetworkActivity","onResume:Exception "+e);
 		}
@@ -120,9 +126,9 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 		super.onPause();
 		Log.i(TAG,"onPause:init");
 		try{
-			conhandler.closeSocket();
-//		    conhandler.cancel(true);
-//		    conhandler = null;
+			
+			mConHandler.closeSocket();
+		    mConHandler = null;
 		    releaseMediaRecorder();       // if you are using MediaRecorder, release it first
 		    releaseCamera();              // release the camera immediately on pause event
 		}catch(Exception e){
@@ -139,11 +145,13 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	    mCamera = getCameraInstance();
 	    if( null == mCamera){
 	    	Log.e(TAG,"prepareVideoRecorder:: can't get camera");
+	    	showToast(getString(R.string.alert_camera_missing));
 	    	return false;
 	    }
 	    
 	    if( null == mSocket){
 	    	Log.e(TAG,"prepareVideoRecorder:: can't get socket");
+	    	showToast(getString(R.string.alert_socket_missing));
 	    	
 	    	// TODO : Attempt to open a new socket
 	    	return false;
@@ -162,7 +170,8 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	    Log.i(TAG,"Output Format:"+mFormat);
 	    mMediaRecorder.setOutputFormat(mFormat); 
 	    mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-	    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+	    mMediaRecorder.setVideoEncoder(mCodec);
+	    
 		mMediaRecorder.setVideoSize(1280, 720);
 		mMediaRecorder.setVideoEncodingBitRate(2000000);
 		mMediaRecorder.setVideoFrameRate(30);
@@ -192,7 +201,6 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	    return true;
 	}	
 
-	
 	/** 
 	* A safe way to get an instance of the Camera object. 
 	*/
@@ -233,18 +241,25 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	 * 
 	 */
 	public void onSocketReady(){
-		mSocket = conhandler.getSocket();
+		mSocket = mConHandler.getSocket();
 	}
 	
 	/**
 	 * 
 	 */
 	private void releaseMediaRecorder(){
-		if (mMediaRecorder != null) {
-			mMediaRecorder.reset();   // clear recorder configuration
-			mMediaRecorder.release(); // release the recorder object
-			mMediaRecorder = null;
-			mCamera.lock();           // lock camera for later use
+		try{
+			
+			if (mMediaRecorder != null) {
+				mMediaRecorder.reset();   
+				mMediaRecorder.release(); 
+				mMediaRecorder = null;
+				mCamera.lock();
+				mSocket.close();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			showToast("Unexpected quit. Camera might have ended badly");
 		}
 	}
 	
@@ -253,7 +268,8 @@ public class NetworkActivity extends Activity implements SocketListenerInterface
 	 */
 	private void releaseCamera(){
 		if (mCamera != null){
-			mCamera.release();        // release the camera for other applications
+			mCamera.stopPreview();
+			mCamera.release();   
 			mCamera = null;
 		}
 	}

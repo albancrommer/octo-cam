@@ -7,13 +7,22 @@
     <string name="surface_view">surface_view</string>
     <string name="port_message">Server Port</string>
     <string name="ip_message">Server IP</string>
-    <string name="help_message">Please provide opened server IP:port information before connecting</string>
-    <string name="help_message_format">Select a streaming format</string>
-    <string name="radio_mpegts">MPEGTS</string>
-    <string name="radio_mp4">MP4</string>
-    <string name="radio_3gpp">3GPP</string>
-    <string name="radio_matroska">Matroska</string>
-    <string name="radio_webm">WebM</string>
-    <string name="radio_rtp">RTP AVP</string>
+    <string name="help_message">Please provide both IP and open port of your server.</string>
+    <string name="help_message_format">Select a file format</string>
+    <string name="help_message_codec">Select a codec</string>
+    <string name="radio_box_mpegts">MPEGTS</string>
+    <string name="radio_box_mp4">MP4</string>
+    <string name="radio_box_3gpp">3GPP</string>
+    <string name="radio_box_matroska">Matroska</string>
+    <string name="radio_box_webm">WebM</string>
+    <string name="radio_box_rtp">RTP AVP</string>
+    <string name="radio_codec_h264">h264</string>
+    <string name="radio_codec_h263">h263</string>
+    <string name="radio_codec_mp4">mp4</string>
+        
+    <string name="alert_ip_missing">Please provide a valid IP adresse (v4 x.x.x.x expected)</string>
+    <string name="alert_port_missing">Please provide a valid port number (Number superior to 1024 expected)</string>
+    <string name="alert_socket_missing">Could not connect to server.</string>
+    <string name="alert_camera_missing">Could not retrieve camera.</string>
     
 </resources>
